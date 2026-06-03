@@ -39,16 +39,17 @@ if prompt := st.chat_input():
     st.chat_message("user").write(prompt)
 
     # LLM 호출
-    response = client.responses.create(
-        model="gpt-3.5-turbo", 
-        input=st.session_state.messages
-    )
+    with st.spinner("Wait for it ..."):
+        response = client.responses.create(
+            model="gpt-3.5-turbo", 
+            input=st.session_state.messages
+        )
 
-    # LLM 응답에서 텍스트를 추출
-    msg = response.output_text
+        # LLM 응답에서 텍스트를 추출
+        msg = response.output_text
 
-    # LLM 응답을 대화 내용에 추가하고 화면에 출력
-    st.session_state.messages.append(
-        {"role": "assistant", "content": msg}
-    )
-    st.chat_message("assistant").write(msg)
+        # LLM 응답을 대화 내용에 추가하고 화면에 출력
+        st.session_state.messages.append(
+            {"role": "assistant", "content": msg}
+        )
+        st.chat_message("assistant").write(msg)
